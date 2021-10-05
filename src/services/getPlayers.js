@@ -1,5 +1,6 @@
-import { players } from '../mock'
+import axios from 'axios'
 
-export default () => {
-  return players
+export default async () => {
+  const { data } = await axios.get('http://orangutanclan.herokuapp.com/players')
+  return data
 }

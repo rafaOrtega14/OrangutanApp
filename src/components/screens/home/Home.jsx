@@ -17,11 +17,20 @@ const Home = () => {
   const { state: { roster: { players: team, loading, sortBy } }, dispatch } = useStateContext()
   const [players, setPlayers] = useState([])
 
+  const retrievePlayers = async () => {
+    try {
+      const playerList = await getPlayers()
+      dispatch(addPlayers(playerList))
+      const res = sortPlayers(playerList, sortBy)
+      const overall = calcGlobalStats(res)
+      setPlayers([overall, ...res])
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
-    const playerList = getPlayers()
-    dispatch(addPlayers(playerList))
-    const res = sortPlayers(playerList, sortBy)
-    setPlayers(res)
+    retrievePlayers()
   }, [])
 
   useEffect(() => {
@@ -43,7 +52,7 @@ const Home = () => {
                 : `${players[activeIndex].name} ${players[activeIndex].surname}`}
             </Text>
             {/* <Text style={styles.nickname}>aka Oinhb</Text> */}
-            <Text style={styles.h6}>{players[activeIndex].position} #{players[activeIndex].number}</Text>
+            <Text style={styles.h6}>{players[activeIndex].position} {activeIndex !== 0 && '#'}{players[activeIndex].number}</Text>
           </View>
           <View style={styles.stats}>
             <View style={styles.statsWrapper}>

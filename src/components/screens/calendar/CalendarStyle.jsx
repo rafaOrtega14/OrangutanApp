@@ -3,7 +3,8 @@ import colors from '../../../constants/colors'
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
+    height: '100%'
   },
   card: {
     marginLeft: 20,

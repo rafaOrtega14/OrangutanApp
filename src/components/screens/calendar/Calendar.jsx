@@ -20,8 +20,10 @@ const Calendar = () => {
   const linkTo = useLinkTo()
 
   useEffect(() => {
-    const calendar = getCalendar()
-    dispatch(addCalendar(calendar))
+    getCalendar()
+      .then(res =>
+        dispatch(addCalendar(res)))
+      .catch(err => console.error(err))
   }, [])
 
   useEffect(() => {

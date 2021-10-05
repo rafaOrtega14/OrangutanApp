@@ -17,7 +17,8 @@ const initialState = {
     loading: true
   },
   ui: {
-    calendarListRef: null
+    calendarListRef: null,
+    isLogged: false
   }
 }
 
@@ -26,6 +27,7 @@ const ADD_CALENDAR = 'ADD_CALENDAR'
 const GET_CALENDAR_LIST_REF = 'GET_CALENDAR_LIST_REF'
 const SET_LOADING = 'SET_LOADING'
 const CHANGE_PLAYERS_SORT_VALUE = 'CHANGE_PLAYERS_SORT_VALUE'
+const SET_LOGGED = 'SET_LOGGED'
 
 const addPlayers = (players) => {
   return {
@@ -74,6 +76,15 @@ const setLoading = (screen, loading) => {
   }
 }
 
+const setLogged = (isLogged) => {
+  return {
+    type: SET_LOGGED,
+    payload: {
+      isLogged
+    }
+  }
+}
+
 // REDUCERS
 const stateReducer = (state, { type, payload }) => {
   switch (type) {
@@ -105,6 +116,10 @@ const stateReducer = (state, { type, payload }) => {
       }
       return state
     }
+    case SET_LOGGED: {
+      const { isLogged } = payload
+      return { ...state, ui: { ...state.ui, isLogged } }
+    }
     default:
       return state
   }
@@ -120,5 +135,8 @@ const StateContextProvider = ({ children }) => {
   )
 }
 
-export { useStateContext, addPlayers, addCalendar, getCalendarListRef, changePlayersSortValue, setLoading }
+export {
+  useStateContext, addPlayers, addCalendar, getCalendarListRef,
+  changePlayersSortValue, setLoading, setLogged
+}
 export default StateContextProvider

@@ -3,6 +3,7 @@ import {
   Image, Text, TextInput, View,
   TouchableOpacity, Keyboard, BackHandler, ScrollView
 } from 'react-native'
+import { setLogged, useStateContext } from '../../../context/context'
 import Bubble from '../../bubble/Bubble'
 import styles from './AdminStyle'
 
@@ -20,47 +21,55 @@ const FAIL_PASS_ATTEMPT_RESPONSES = [
 ]
 
 const Admin = () => {
+  const { state: { ui: { isLogged } }, dispatch } = useStateContext()
   const [input, setInput] = React.useState('')
   const [attempts, setAttempts] = useState(0)
 
   const checkPassword = () => {
     Keyboard.dismiss()
     setInput('')
-    if (input !== 'test') {
-      if (attempts > FAIL_PASS_ATTEMPT_RESPONSES.length - 2) {
-        BackHandler.exitApp()
-        setAttempts(-1)
-      }
-      setAttempts(attempts => attempts + 1)
+    if (input === 'test') {
+      setAttempts(0)
+      return dispatch(setLogged(true))
     }
+    if (attempts > FAIL_PASS_ATTEMPT_RESPONSES.length - 2) {
+      BackHandler.exitApp()
+      return setAttempts(0)
+    }
+    setAttempts(attempts => attempts + 1)
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal={false} style={{ flex: 1 }}>
-        <Text style={styles.title}>Área de administrador
-        </Text>
-        <Text style={styles.label}>Escribe la contraseña:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => setInput(text)}
-          value={input}
-          placeholder='No es 1234...'
-          placeholderTextColor='#B0B0B0'
-          secureTextEntry
-        />
-        <TouchableOpacity
-          onPress={checkPassword}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Entrar</Text>
-        </TouchableOpacity>
-        <View style={styles.wrapper}>
-          <View style={styles.bubble}>
-            <Bubble text={FAIL_PASS_ATTEMPT_RESPONSES[attempts]} />
-          </View>
-          <Image style={styles.image} source={IMAGE} />
-        </View>
+      <ScrollView
+        horizontal={false} style={{ flex: 1 }}
+        keyboardShouldPersistTaps='handled'
+      >
+        <Text style={styles.title}>Área de administrador</Text>
+        {!isLogged &&
+          <>
+            <Text style={styles.label}>Escribe la contraseña:</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => setInput(text)}
+              value={input}
+              placeholder='No es 1234...'
+              placeholderTextColor='#B0B0B0'
+              secureTextEntry
+            />
+            <TouchableOpacity
+              onPress={checkPassword}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Entrar</Text>
+            </TouchableOpacity>
+            <View style={styles.wrapper}>
+              <View style={styles.bubble}>
+                <Bubble text={FAIL_PASS_ATTEMPT_RESPONSES[attempts]} />
+              </View>
+              <Image style={styles.image} source={IMAGE} />
+            </View>
+          </>}
       </ScrollView>
     </View>
 

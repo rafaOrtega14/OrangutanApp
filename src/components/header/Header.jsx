@@ -3,7 +3,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import styles from './HeaderStyles.js'
 import DropDownPicker from 'react-native-dropdown-picker'
 import colors from '../../constants/colors'
-import { changePlayersSortValue, useStateContext } from '../../context/context.js'
+import { changePlayersSortValue, setLogged, useStateContext } from '../../context/context.js'
 import { stats } from '../../constants/stats.js'
 import { screens } from '../../constants/screens.js'
 
@@ -20,7 +20,10 @@ const Header = ({ route }) => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(OPTIONS[0].value)
   const [options, setOptions] = useState(OPTIONS)
-  const { dispatch, state: { calendar: { games, nextGame }, ui: { calendarListRef } } } = useStateContext()
+  const {
+    dispatch,
+    state: { calendar: { games, nextGame }, ui: { calendarListRef, isLogged } }
+  } = useStateContext()
 
   const goToNextGame = () => {
     const index = games.findIndex(({ _id }) => _id === nextGame._id)
@@ -69,6 +72,14 @@ const Header = ({ route }) => {
           style={styles.button}
         >
           <Text style={styles.buttonText}>Ir al próximo partido</Text>
+        </TouchableOpacity>}
+
+      {route === screens.ADMIN && isLogged &&
+        <TouchableOpacity
+          onPress={() => dispatch(setLogged(false))}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Cerrar sesión</Text>
         </TouchableOpacity>}
     </View>
   )
