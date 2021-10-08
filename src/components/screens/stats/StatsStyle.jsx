@@ -21,7 +21,7 @@ export default StyleSheet.create({
   text: {
     color: '#fff',
     fontFamily: 'montserrat',
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center'
   },
   textTitle: {

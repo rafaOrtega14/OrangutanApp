@@ -1,16 +1,18 @@
-export default (players) => {
-  /* const teamImage = require('../assets/images/team.jpg') */
+import teamImage from '../constants/teamImage'
 
+export default (players) => {
   const team = {
     name: 'Orangutan',
     surname: 'Clan',
     position: 'Equipo',
+    dorsal: ' ',
     stats: [
       {
-        gamesplayed: 0,
+        gamesplayed: 12,
         threes: players.reduce((a, b) => a + b.stats[0].threes, 0),
         totalpoints: players.reduce((a, b) => a + b.stats[0].totalpoints, 0)
-      }]
+      }],
+    photo: teamImage.imageString
   }
 
   return team
