@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-table-component/components/cell.js b/node_modules/react-native-table-component/components/cell.js
+index aa6a3ee..b4f1d0b 100644
+--- a/node_modules/react-native-table-component/components/cell.js
++++ b/node_modules/react-native-table-component/components/cell.js
+@@ -13,7 +13,7 @@ export class Cell extends Component {
+     const textDom = React.isValidElement(data) ? (
+       data
+     ) : (
+-      <Text style={[textStyle, styles.text]} {...props}>
++      <Text style={[textStyle, styles.text]} numberOfLines={1} {...props}>
+         {data}
+       </Text>
+     );
