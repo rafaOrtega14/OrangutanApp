@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Dimensions, Image } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
-import { useState } from 'react/cjs/react.development'
 import styles from './CarouselContainerStyles'
 
 const { width: screenWidth } = Dimensions.get('window')
