@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "OrangutanApp",
-    "slug": "OrangutanApp",
+     "name": "OrangutanClan",
+     "slug": "OrangutanClan",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#181829"
-      }
+      },
+      "package": "com.orangutanclan.orangutanclan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
