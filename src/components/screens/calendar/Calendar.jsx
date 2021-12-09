@@ -37,8 +37,8 @@ const Calendar = () => {
           ref={flatListRef}
           data={games}
           renderItem={({ item: { _id, date, court, rival } }) =>
-            <View key={_id} style={[styles.card, _id === nextGame._id && styles.highlight]}>
-              {_id === nextGame._id && <Text style={styles.nextGame}>Próximo partido</Text>}
+            <View key={_id} style={[styles.card, _id === nextGame?._id && styles.highlight]}>
+              {_id === nextGame?._id && <Text style={styles.nextGame}>Próximo partido</Text>}
               <Text style={styles.date}>{formatDate(date)} • {formatHour(date)}</Text>
               <Text style={styles.court}>{court}</Text>
               <View style={styles.teams}>

@@ -52,7 +52,7 @@ const Home = () => {
                 : `${players[activeIndex].name} ${players[activeIndex].surname}`}
             </Text>
             {/* <Text style={styles.nickname}>aka Oinhb</Text> */}
-            <Text style={styles.h6}>{players[activeIndex].position || 'Alero'} {activeIndex !== 0 && '#'}{players[activeIndex].dorsal || '00'}</Text>
+            <Text style={styles.h6}>{players[activeIndex].position || 'Sin posición'} {activeIndex !== 0 && '#'}{players[activeIndex].dorsal || '00'}</Text>
           </View>
           <View style={styles.stats}>
             <View style={styles.statsWrapper}>

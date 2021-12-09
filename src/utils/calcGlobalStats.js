@@ -1,6 +1,6 @@
 import teamImage from '../constants/teamImage'
 
-export default (players) => {
+export default (players, games) => {
   const team = {
     name: 'Orangutan',
     surname: 'Clan',

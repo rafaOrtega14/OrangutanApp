@@ -6,6 +6,7 @@ import colors from '../../constants/colors'
 import { changePlayersSortValue, setLogged, useStateContext } from '../../context/context.js'
 import { stats } from '../../constants/stats.js'
 import { screens } from '../../constants/screens.js'
+import { useNavigation } from '@react-navigation/native'
 
 const logoImage = require('../../assets/images/logo.png')
 
@@ -24,9 +25,10 @@ const Header = ({ route }) => {
     dispatch,
     state: { calendar: { games, nextGame }, ui: { calendarListRef, isLogged } }
   } = useStateContext()
+  const navigation = useNavigation()
 
   const goToNextGame = () => {
-    const index = games.findIndex(({ _id }) => _id === nextGame._id)
+    const index = games.findIndex(({ _id }) => _id === nextGame?._id)
     calendarListRef.current.scrollToIndex({ animated: true, index })
   }
 
@@ -65,7 +67,7 @@ const Header = ({ route }) => {
           />
         </View>}
 
-      {route === screens.CALENDAR &&
+      {route === screens.CALENDAR && nextGame &&
       games?.length !== 0 &&
         <TouchableOpacity
           onPress={goToNextGame}
@@ -74,13 +76,23 @@ const Header = ({ route }) => {
           <Text style={styles.buttonText}>Ir al próximo partido</Text>
         </TouchableOpacity>}
 
-      {route === screens.ADMIN && isLogged &&
+      {route === screens.CALENDAR && nextGame === undefined &&
+        <Text style={styles.buttonText}>No hay próximos partidos</Text>}
+      {route === screens.ADMIN_MENU && isLogged &&
         <TouchableOpacity
           onPress={() => dispatch(setLogged(false))}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Cerrar sesión</Text>
         </TouchableOpacity>}
+      {(route === screens.ADMIN_PLAYERS || route === screens.ADMIN_CALENDAR) &&
+        <TouchableOpacity
+          onPress={() => navigation.navigate(screens.ADMIN_MENU)}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Volver al menú</Text>
+        </TouchableOpacity>}
+
     </View>
   )
 }

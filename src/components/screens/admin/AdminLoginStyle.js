@@ -4,7 +4,7 @@ import colors from '../../../constants/colors'
 export default StyleSheet.create({
   container: {
     backgroundColor: colors.background,
-    height: '100%',
+    flex: 1,
     paddingLeft: 20,
     paddingRight: 20
   },
@@ -16,10 +16,10 @@ export default StyleSheet.create({
   },
   label: {
     fontFamily: 'montserrat',
-    fontSize: 18,
+    fontSize: 16,
     color: '#fff',
     alignSelf: 'flex-start',
-    marginBottom: 8
+    marginBottom: 12
   },
   input: {
     fontFamily: 'montserrat',
