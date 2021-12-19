@@ -10,12 +10,11 @@ export default (players, games) => {
     surname: 'Clan',
     position: 'Equipo',
     dorsal: ' ',
-    stats: [
-      {
-        gamesplayed: totalGames?.length,
-        threes: players.reduce((a, b) => a + b.stats[0].threes, 0),
-        totalpoints: players.reduce((a, b) => a + b.stats[0].totalpoints, 0)
-      }],
+    stats: {
+      gamesplayed: totalGames?.length,
+      threes: players.reduce((a, b) => a + b.stats.threes, 0),
+      totalpoints: players.reduce((a, b) => a + b.stats.totalpoints, 0)
+    },
     photo: teamImage.imageString
   }
 

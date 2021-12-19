@@ -13,6 +13,6 @@ export const formatDate = (date) => {
 export const formatHour = (date) => {
   const res = new Date(date)
   const hours = res.getUTCHours()
-  const min = res.getMinutes()
+  const min = (res.getMinutes() < 10 ? '0' : '') + res.getMinutes()
   return `${hours}:${min}`
 }

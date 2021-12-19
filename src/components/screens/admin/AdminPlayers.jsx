@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View, Keyboard } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { TextInput } from 'react-native-gesture-handler'
 import colors from '../../../constants/colors'
@@ -29,6 +29,7 @@ const AdminPlayers = () => {
   const [updating, setUpdating] = useState(false)
   const [isUpdated, setUpdated] = useState(false)
   const [error, setError] = useState(false)
+  const [isKeyboardOpen, setKeyboardOpen] = useState(false)
 
   useEffect(() => {
     const playerNames = state.roster.players
@@ -40,26 +41,33 @@ const AdminPlayers = () => {
     setInput({
       ...input,
       id: player?._id,
-      totalpoints: player?.stats[0].gamesplayed !== null ? player?.stats[0].totalpoints.toString() : '0',
-      gamesplayed: player?.stats[0].gamesplayed !== null ? player?.stats[0].gamesplayed.toString() : '0',
-      threes: player?.stats[0].gamesplayed !== null ? player?.stats[0].threes.toString() : '0'
+      totalpoints: player?.stats.gamesplayed !== null ? player?.stats.totalpoints.toString() : '0',
+      gamesplayed: player?.stats.gamesplayed !== null ? player?.stats.gamesplayed.toString() : '0',
+      threes: player?.stats.gamesplayed !== null ? player?.stats.threes.toString() : '0'
     })
     setOldPlayerData({
       ...oldPlayerData,
-      totalpoints: player?.stats[0].gamesplayed !== null ? player?.stats[0].totalpoints.toString() : '0',
-      gamesplayed: player?.stats[0].gamesplayed !== null ? player?.stats[0].gamesplayed.toString() : '0',
-      threes: player?.stats[0].gamesplayed !== null ? player?.stats[0].threes.toString() : '0'
+      totalpoints: player?.stats.gamesplayed !== null ? player?.stats.totalpoints.toString() : '0',
+      gamesplayed: player?.stats.gamesplayed !== null ? player?.stats.gamesplayed.toString() : '0',
+      threes: player?.stats.gamesplayed !== null ? player?.stats.threes.toString() : '0'
     })
     setUpdated(false)
     setError(false)
   }
 
   const updatePlayer = () => {
+    Keyboard.dismiss()
+
     const body = {
       totalpoints: parseInt(input.totalpoints),
       gamesplayed: parseInt(input.gamesplayed),
       threes: parseInt(input.threes)
     }
+
+    if (!body.totalpoints || !body.gamesplayed || !body.threes) {
+      return setError(true)
+    }
+
     setUpdating(true)
     editPlayers(input.id, body)
       .then(res => {
@@ -84,8 +92,14 @@ const AdminPlayers = () => {
     else if (error && !isUpdated) return '¡Error! No se pudo guardar'
     else if (!isUpdated) return 'Guardar cambios'
     else return '¡Hecho!'
-    /*  updating ? 'Guardando...' : error ? '¡Error! No se pudo guardar' : isUpdated ? '¡Hecho!' : 'Guardar cambios' */
   }
+
+  useEffect(() => {
+    let isSubscribed = true
+    Keyboard.addListener('keyboardDidShow', () => isSubscribed && setKeyboardOpen(true))
+    Keyboard.addListener('keyboardDidHide', () => isSubscribed && setKeyboardOpen(false))
+    return () => (isSubscribed = false)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -170,15 +184,16 @@ const AdminPlayers = () => {
               </View>
             </ScrollView>
           </View>
-          <TouchableOpacity
-            onPress={updatePlayer}
-            style={[styles.button, (error || updating || isUpdated) && styles.buttonDisabled]}
-            disabled={error || updating || isUpdated}
-          >
-            <Text style={styles.buttonText}>
-              {setButtonText()}
-            </Text>
-          </TouchableOpacity>
+          {!isKeyboardOpen &&
+            <TouchableOpacity
+              onPress={updatePlayer}
+              style={[styles.button, (error || updating || isUpdated) && styles.buttonDisabled]}
+              disabled={error || updating || isUpdated}
+            >
+              <Text style={styles.buttonText}>
+                {setButtonText()}
+              </Text>
+            </TouchableOpacity>}
         </>}
       {!value && <EmptyData title='¡Ey!' description='Parece que aún no has seleccionado ningún jugador.' />}
     </View>

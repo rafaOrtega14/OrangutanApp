@@ -8,6 +8,7 @@ import sortPlayers from '../../../utils/sortPlayers'
 import Loader from '../../loader/Loader'
 import EmptyData from '../../empty-data/EmptyData'
 import colors from '../../../constants/colors'
+import calculatePointsPerGame from '../../../utils/calculatePointsPerGame'
 
 const Stats = () => {
   const { state: { roster: { players: team, sortBy }, calendar: { games } } } = useStateContext()
@@ -25,9 +26,9 @@ const Stats = () => {
     setTable({
       ...table,
       head: ['', 'PT', 'PPP', '3T', 'PJ'],
-      title: sortedPlayers.map(({ name, surname }, index) => `${index !== 0 ? `${index}º  ${name[0]}.${surname}` : 'Global'}`),
+      title: sortedPlayers.map(({ name, surname }, index) => `${index !== 0 ? `${index}º  ${name.substring(0, 1)}.${surname}` : 'Global'}`),
       data: sortedPlayers.map(({ stats }) => {
-        const { totalpoints, gamesplayed, threes } = stats[0]
+        const { totalpoints, gamesplayed, threes } = stats
         return [totalpoints, (totalpoints / gamesplayed).toFixed(2), threes, gamesplayed]
       })
     })
@@ -60,7 +61,7 @@ const Stats = () => {
                 textStyle={[styles.text, styles.textTitle, { height: '100%', borderWidth: 1, borderColor: 'transparent', borderBottomColor: colors.backgroundLight }]}
               />
               <Table style={{ flex: 4 }}>
-                {players.map(({ stats }) => stats[0])
+                {players.map(({ stats }) => stats)
                   .map((rowData, index) =>
                     <TouchableOpacity
                       key={index}
@@ -72,7 +73,7 @@ const Stats = () => {
                       }}
                     >
                       <Row
-                        data={[rowData.totalpoints, (rowData.totalpoints / rowData.gamesplayed).toFixed(2), rowData.threes, rowData.gamesplayed]}
+                        data={[rowData.totalpoints, calculatePointsPerGame(rowData.totalpoints, rowData.gamesplayed), rowData.threes, rowData.gamesplayed]}
                         style={[styles.row, index % 2 && { backgroundColor: colors.backgroundLight }, selectedRow === index && styles.selectedRow, selectedRow2 === index && styles.selectedRow2]}
                         textStyle={styles.text}
                       />

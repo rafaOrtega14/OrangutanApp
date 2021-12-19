@@ -106,9 +106,10 @@ export default StyleSheet.create({
   deleteButtonText: {
     marginTop: 20,
     fontFamily: 'montserratSemibold',
-    fontSize: 14,
-    color: 'red',
-    textDecorationLine: 'underline'
+    fontSize: 16,
+    color: '#fff',
+    textDecorationLine: 'underline',
+    textAlign: 'center'
   },
   modal: {
     height: '100%',

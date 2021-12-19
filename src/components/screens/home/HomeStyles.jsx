@@ -48,13 +48,13 @@ export default StyleSheet.create({
   nickname: {
     fontFamily: 'montserratLight',
     color: '#fff',
-    fontSize: 18,
-    marginBottom: 8
+    fontSize: 12,
+    marginBottom: 18
   },
   stats: {
     flexDirection: 'row',
     flex: 1,
-    marginTop: 'auto',
+    marginTop: 20,
     paddingRight: 20,
     paddingLeft: 20,
     zIndex: 1

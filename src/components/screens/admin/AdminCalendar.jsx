@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useStateContext } from '../../../context/context'
-import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native'
+import { addCalendar, useStateContext } from '../../../context/context'
+import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform, Keyboard } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
 import colors from '../../../constants/colors'
 import styles from './AdminCalendarStyle'
@@ -10,10 +10,10 @@ import { formatDate, formatHour } from '../../../utils/formatDate'
 import deleteGame from '../../../services/deleteGame'
 import createGame from '../../../services/createGame'
 import { screens } from '../../../constants/screens'
-import getCurrentDateTime from '../../../utils/getCurrentDateTime'
+import getCalendar from '../../../services/getCalendar'
 
 const AdminCalendar = ({ navigation }) => {
-  const { state } = useStateContext()
+  const { state, dispatch } = useStateContext()
   const [value, setValue] = useState()
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState([])
@@ -31,6 +31,7 @@ const AdminCalendar = ({ navigation }) => {
 
   const [mode, setMode] = useState('date')
   const [show, setShow] = useState(false)
+  const [isKeyboardOpen, setKeyboardOpen] = useState(false)
 
   const [updating, setUpdating] = useState(false)
   const [isUpdated, setUpdated] = useState(false)
@@ -64,17 +65,26 @@ const AdminCalendar = ({ navigation }) => {
   }
 
   const updateGame = () => {
+    Keyboard.dismiss()
     const body = {
       rival: input.rival,
       date: input.date,
       court: input.court
     }
+
+    if (!body.rival || !body.date || !body.court) {
+      return setError(true)
+    }
+
     setUpdating(true)
     editCalendar(input.id, body)
       .then(res => {
         console.log('res', res)
         setUpdating(false)
         setUpdated(true)
+        getCalendar()
+          .then(res =>
+            dispatch(addCalendar(res)))
       })
       .catch(e => {
         console.log('error', e)
@@ -106,28 +116,40 @@ const AdminCalendar = ({ navigation }) => {
   }
 
   const showDatepicker = () => {
-    const date = getCurrentDateTime()
+    const date = new Date()
+    date.setHours(date.getHours())
     if (!input.date) setInput({ ...input, date })
     showMode('date')
   }
 
   const showTimepicker = () => {
-    const date = getCurrentDateTime()
+    const date = new Date()
+    date.setHours(date.getHours() + 1)
     if (!input.date) setInput({ ...input, date })
     showMode('time')
   }
 
   const deleteGameFromCalendar = () => {
+    Keyboard.dismiss()
     deleteGame(input.id)
     setModal('confirmDeletedGame')
+    getCalendar()
+      .then(res =>
+        dispatch(addCalendar(res)))
   }
 
   const addGame = () => {
+    Keyboard.dismiss()
     const body = {
       rival: input.rival,
       date: input.date,
       court: input.court
     }
+
+    if (!body.rival || !body.date || !body.court) {
+      return setError(true)
+    }
+
     setUpdating(true)
     createGame(body)
       .then(res => {
@@ -139,6 +161,9 @@ const AdminCalendar = ({ navigation }) => {
           date: '',
           court: ''
         })
+        getCalendar()
+          .then(res =>
+            dispatch(addCalendar(res)))
       })
       .catch(e => {
         console.log('error', e)
@@ -150,6 +175,13 @@ const AdminCalendar = ({ navigation }) => {
   useEffect(() => {
     if (value) setShowCreateGame(false)
   }, [value])
+
+  useEffect(() => {
+    let isSubscribed = true
+    Keyboard.addListener('keyboardDidShow', () => isSubscribed && setKeyboardOpen(true))
+    Keyboard.addListener('keyboardDidHide', () => isSubscribed && setKeyboardOpen(false))
+    return () => (isSubscribed = false)
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -251,15 +283,16 @@ const AdminCalendar = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
-          <TouchableOpacity
-            onPress={addGame}
-            style={[styles.button, (error || updating || isUpdated) && styles.buttonDisabled]}
-            disabled={error || updating || isUpdated}
-          >
-            <Text style={styles.buttonText}>
-              {setButtonText()}
-            </Text>
-          </TouchableOpacity>
+          {!isKeyboardOpen &&
+            <TouchableOpacity
+              onPress={addGame}
+              style={[styles.button, (error || updating || isUpdated) && styles.buttonDisabled]}
+              disabled={error || updating || isUpdated}
+            >
+              <Text style={styles.buttonText}>
+                {setButtonText()}
+              </Text>
+            </TouchableOpacity>}
         </>}
       {!showCreateGame && value !== undefined &&
         <>
@@ -323,6 +356,7 @@ const AdminCalendar = ({ navigation }) => {
                     value={input.court}
                     placeholder={input.court}
                     placeholderTextColor='#B0B0B0'
+                    keyboardType='numeric'
                   />
                   <Text style={styles.smallText}>Antes: {oldGameData.court}</Text>
                 </View>
@@ -336,15 +370,16 @@ const AdminCalendar = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
-          <TouchableOpacity
-            onPress={updateGame}
-            style={[styles.button, (error || updating || isUpdated) && styles.buttonDisabled]}
-            disabled={error || updating || isUpdated}
-          >
-            <Text style={styles.buttonText}>
-              {setButtonText()}
-            </Text>
-          </TouchableOpacity>
+          {!isKeyboardOpen &&
+            <TouchableOpacity
+              onPress={updateGame}
+              style={[styles.button, (error || updating || isUpdated) && styles.buttonDisabled]}
+              disabled={error || updating || isUpdated}
+            >
+              <Text style={styles.buttonText}>
+                {setButtonText()}
+              </Text>
+            </TouchableOpacity>}
         </>}
       {modal === 'deleteGame' &&
         <View style={styles.modal}>

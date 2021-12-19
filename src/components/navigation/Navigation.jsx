@@ -35,7 +35,8 @@ const Navbar = ({ calendar }) => {
           tabBarStyle: { backgroundColor: '#181829', borderTopWidth: 0, padding: 15, height: 55 },
           tabBarIcon: ({ color }) => getIcon(route, color),
           tabBarActiveTintColor: colors.primary,
-          tabBarInactiveTintColor: '#fff'
+          tabBarInactiveTintColor: '#fff',
+          tabBarHideOnKeyboard: true
         })}
       >
         <Tab.Screen name={screens.HOME} options={TAB_OPTIONS} component={Home} />
