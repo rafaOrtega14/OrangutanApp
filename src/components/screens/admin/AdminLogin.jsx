@@ -7,8 +7,6 @@ import { setLogged, useStateContext } from '../../../context/context'
 import Bubble from '../../bubble/Bubble'
 import styles from './AdminLoginStyle'
 import AdminNavigation from './AdminNavigation'
-import others from '../../../constants/others'
-import crypto from 'crypto-es'
 
 const IMAGE = require('../../../assets/images/rafa.webp')
 
@@ -32,7 +30,7 @@ const AdminLogin = () => {
     Keyboard.dismiss()
     setInput('')
 
-    if (crypto.MD5(input).toString() === others.access) {
+    if (input === 'pavisoso15') {
       setAttempts(0)
       return dispatch(setLogged(true))
     }
