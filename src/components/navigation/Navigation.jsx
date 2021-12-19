@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator()
 
 const TAB_OPTIONS = { headerShown: false, tabBarShowLabel: false }
 
-const Navbar = () => {
+const Navbar = ({ calendar }) => {
   const getIcon = (route, color) => {
     const icons = {
       Home: <HomeIcon color={color} />,
@@ -38,7 +38,7 @@ const Navbar = () => {
           tabBarInactiveTintColor: '#fff'
         })}
       >
-        <Tab.Screen name={screens.HOME} component={Home} options={TAB_OPTIONS} />
+        <Tab.Screen name={screens.HOME} options={TAB_OPTIONS} component={Home} />
         <Tab.Screen name={screens.CALENDAR} component={Calendar} options={TAB_OPTIONS} />
         <Tab.Screen name={screens.STATS} component={Stats} options={TAB_OPTIONS} />
         <Tab.Screen name={screens.ADMIN} component={AdminLogin} options={TAB_OPTIONS} />

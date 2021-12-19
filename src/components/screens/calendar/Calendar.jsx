@@ -40,7 +40,7 @@ const Calendar = () => {
             <View key={_id} style={[styles.card, _id === nextGame?._id && styles.highlight]}>
               {_id === nextGame?._id && <Text style={styles.nextGame}>Próximo partido</Text>}
               <Text style={styles.date}>{formatDate(date)} • {formatHour(date)}</Text>
-              <Text style={styles.court}>{court}</Text>
+              <Text style={styles.court}>Pista {court}</Text>
               <View style={styles.teams}>
                 <View style={styles.imageContainer}>
                   <Image style={styles.image} source={logoImage} />

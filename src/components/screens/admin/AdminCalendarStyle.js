@@ -6,7 +6,8 @@ const windowWidth = Dimensions.get('window').width
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
+    position: 'relative'
   },
   title: {
     fontFamily: 'montserratSemibold',
@@ -14,8 +15,20 @@ export default StyleSheet.create({
     color: '#fff',
     marginBottom: 24
   },
-  inputContainer: {
+  text: {
+    fontFamily: 'montserratSemibold',
+    fontSize: 14,
+    color: '#fff',
+    textDecorationLine: 'underline'
+  },
+  wrapper: {
     marginBottom: 20
+  },
+  inputContainer: {
+    marginBottom: 20,
+    borderBottomColor: '#404040',
+    paddingBottom: 20,
+    borderBottomWidth: 0.5
   },
   inputLabel: {
     fontFamily: 'montserrat',
@@ -29,7 +42,7 @@ export default StyleSheet.create({
     borderRadius: 5,
     color: '#fff',
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: '#999',
     width: '100%',
     padding: 10,
     paddingLeft: 15,
@@ -62,8 +75,8 @@ export default StyleSheet.create({
   },
   smallText: {
     fontFamily: 'montserrat',
-    fontSize: 14,
-    color: '#ccc'
+    fontSize: 12,
+    color: '#999'
   },
   dateButtonContainer: {
     display: 'flex',
@@ -89,5 +102,57 @@ export default StyleSheet.create({
     textAlign: 'center',
     display: 'flex',
     width: '100%'
+  },
+  deleteButtonText: {
+    marginTop: 20,
+    fontFamily: 'montserratSemibold',
+    fontSize: 14,
+    color: 'red',
+    textDecorationLine: 'underline'
+  },
+  modal: {
+    height: '100%',
+    backgroundColor: colors.background,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 9999,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
+  },
+  modalBody: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20
+  },
+  modalText: {
+    fontFamily: 'montserratSemibold',
+    fontSize: 20,
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 30,
+    lineHeight: 30
+  },
+  modalButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalButton: {
+    backgroundColor: colors.backgroundLight,
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 14,
+    borderRadius: 5
+  },
+  modalButtonText: {
+    fontFamily: 'montserratSemibold',
+    fontSize: 14,
+    color: '#fff'
   }
 })

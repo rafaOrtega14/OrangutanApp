@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export default async (id, body) => {
-  const { data } = await axios.put(`http://orangutanclan.herokuapp.com/player/${id}`, body)
+  const headers = { headers: { 'Content-Type': 'application/json' } }
+  const { data } = await axios.put(`https://orangutanclan.herokuapp.com/calendar/${id}`, headers, body)
   return data
 }

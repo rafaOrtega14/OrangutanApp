@@ -3,7 +3,8 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { TextInput } from 'react-native-gesture-handler'
 import colors from '../../../constants/colors'
-import { addPlayers, useStateContext } from '../../../context/context'
+import { stats } from '../../../constants/stats'
+import { addPlayers, changePlayersSortValue, useStateContext } from '../../../context/context'
 import editPlayers from '../../../services/editPlayers'
 import getPlayers from '../../../services/getPlayers'
 import EmptyData from '../../empty-data/EmptyData'
@@ -62,12 +63,13 @@ const AdminPlayers = () => {
     setUpdating(true)
     editPlayers(input.id, body)
       .then(res => {
-        console.log('res', res)
         setUpdating(false)
         setUpdated(true)
         getPlayers()
-          .then(res =>
-            dispatch(addPlayers(res)))
+          .then(res => {
+            dispatch(addPlayers(res))
+            dispatch(changePlayersSortValue(stats.TOTAL_POINTS))
+          })
           .catch(err => console.error(err))
       })
       .catch(e => {

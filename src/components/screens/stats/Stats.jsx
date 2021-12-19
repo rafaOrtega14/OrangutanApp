@@ -10,7 +10,7 @@ import EmptyData from '../../empty-data/EmptyData'
 import colors from '../../../constants/colors'
 
 const Stats = () => {
-  const { state: { roster: { players: team, sortBy } } } = useStateContext()
+  const { state: { roster: { players: team, sortBy }, calendar: { games } } } = useStateContext()
   const [players, setPlayers] = useState([])
   const [table, setTable] = useState()
   const [loading, setLoading] = useState(true)
@@ -19,7 +19,7 @@ const Stats = () => {
 
   const fillTable = () => {
     const res = sortPlayers(team, sortBy)
-    const overall = calcGlobalStats(res)
+    const overall = calcGlobalStats(res, games)
     const sortedPlayers = [overall, ...res]
     setPlayers(sortedPlayers)
     setTable({
@@ -39,8 +39,10 @@ const Stats = () => {
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     fillTable()
-  }, [sortBy])
+    setLoading(false)
+  }, [sortBy, team])
 
   return (
     <View style={styles.container}>

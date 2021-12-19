@@ -48,8 +48,7 @@ export default StyleSheet.create({
   },
   court: {
     fontFamily: 'montserrat',
-    color: '#fff',
-    textTransform: 'capitalize'
+    color: '#fff'
   },
   teams: {
     fontFamily: 'montserrat',

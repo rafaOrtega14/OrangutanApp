@@ -14,7 +14,7 @@ const backgroundImage = require('../../../assets/images/logo.png')
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0)
-  const { state: { roster: { players: team, loading, sortBy } }, dispatch } = useStateContext()
+  const { state: { roster: { players: team, loading, sortBy }, calendar: { games } }, dispatch } = useStateContext()
   const [players, setPlayers] = useState([])
 
   const retrievePlayers = async () => {
@@ -22,7 +22,7 @@ const Home = () => {
       const playerList = await getPlayers()
       dispatch(addPlayers(playerList))
       const res = sortPlayers(playerList, sortBy)
-      const overall = calcGlobalStats(res)
+      const overall = calcGlobalStats(res, games)
       setPlayers([overall, ...res])
     } catch (err) {
       console.error(err)
@@ -35,7 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     const res = sortPlayers(team, sortBy)
-    const overall = calcGlobalStats(res)
+    const overall = calcGlobalStats(res, games)
     setPlayers([overall, ...res])
     setActiveIndex(0)
   }, [sortBy])

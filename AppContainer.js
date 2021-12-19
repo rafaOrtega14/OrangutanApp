@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import {
   useFonts,
@@ -13,10 +13,13 @@ import Navigation from './src/components/navigation/Navigation'
 import Header from './src/components/header/Header'
 import Constants from 'expo-constants'
 import colors from './src/constants/colors'
+import getCalendar from './src/services/getCalendar'
+import { addCalendar, useStateContext } from './src/context/context'
 
 export default function App () {
   const navigationRef = useRef()
   const [route, setRoute] = useState()
+  const { dispatch } = useStateContext()
 
   const getActiveRouteName = () => navigationRef.current.getCurrentRoute().name
 
@@ -26,6 +29,14 @@ export default function App () {
     montserratSemibold,
     montserratBold
   })
+
+  useEffect(() => {
+    getCalendar()
+      .then(res => {
+        dispatch(addCalendar(res))
+      })
+      .catch(err => console.error(err))
+  }, [])
 
   if (!fontsLoaded) {
     return null
