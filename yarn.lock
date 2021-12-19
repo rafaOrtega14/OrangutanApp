@@ -6076,16 +6076,6 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
-"react-native-navbar-color@^1.0.3":
-  "integrity" "sha512-VAouso41MWDFC+mLPJmgIaH/B2352MnEgCrqzwDCKf43+nfk7O5FuqtLN9pWKEvX06laSTQPdqy5Arln/GH0Pg=="
-  "resolved" "https://registry.npmjs.org/react-native-navbar-color/-/react-native-navbar-color-1.0.3.tgz"
-  "version" "1.0.3"
-
-"react-native-navigation-bar-color@^2.0.1":
-  "integrity" "sha512-1kE/oxWt+HYjRxdZdvke9tJ365xaee5n3+euOQA1En8zQuSbOxiE4SYEGM7TeaWnmLJ0l37mRnPHaB2H4mGh0A=="
-  "resolved" "https://registry.npmjs.org/react-native-navigation-bar-color/-/react-native-navigation-bar-color-2.0.1.tgz"
-  "version" "2.0.1"
-
 "react-native-reanimated@>= 1.0.0", "react-native-reanimated@~2.2.0":
   "integrity" "sha512-Lfv4ogbNLU9x3DqhXUFza9pnzyTvPrw5xGC1wWA6aGXqZgyaikNLgC5dNWzxVbfEwRdOuLPFsai3LAcIM92TCg=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.2.2.tgz"
