@@ -1,4 +1,5 @@
 export const positions = [
+  '🙈 Estadísticas de equipo',
   '🥇 Primera posición',
   '🥈 Segunda posición',
   '🥉 Tercera posición',

@@ -44,7 +44,6 @@ const Header = ({ route }) => {
         style={styles.logo}
         source={logoImage}
       />
-
       {(route === screens.HOME || route === screens.STATS) &&
         <View style={styles.filter}>
           <DropDownPicker

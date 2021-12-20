@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Text, View } from 'react-native'
+import { Text, View, Easing, ImageBackground, Animated } from 'react-native'
 import styles from './HomeStyles'
 import { addPlayers, useStateContext } from '../../../context/context'
 import EmptyData from '../../empty-data/EmptyData'
@@ -11,6 +11,7 @@ import CarouselContainer from '../../carousel/CarouselContainer'
 import calcGlobalStats from '../../../utils/calcGlobalStats'
 import { positions } from '../../../constants/positions'
 import calculatePointsPerGame from '../../../utils/calculatePointsPerGame'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const backgroundImage = require('../../../assets/images/logo.png')
 
@@ -18,6 +19,8 @@ const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0)
   const { state: { roster: { players: team, loading, sortBy }, calendar: { games } }, dispatch } = useStateContext()
   const [players, setPlayers] = useState([])
+  const [showAnimatedGif, setShowAnimatedGif] = useState(false)
+  const [gifPosition, setGifPosition] = useState(new Animated.Value(400))
 
   const retrievePlayers = async () => {
     try {
@@ -43,12 +46,33 @@ const Home = () => {
     setActiveIndex(0)
   }, [sortBy, games])
 
+  const startAnimation = () => {
+    Animated.timing(gifPosition, {
+      toValue: 0, duration: 400, easing: Easing.linear, useNativeDriver: false
+    }).start(() => endAnimation())
+  }
+
+  const endAnimation = () => {
+    Animated.timing(gifPosition, {
+      toValue: 400, delay: 2000, duration: 400, easing: Easing.linear, useNativeDriver: false
+    }).start(() => {
+      setShowAnimatedGif(false)
+      setGifPosition(new Animated.Value(400))
+    })
+  }
+
+  const handleGif = (show) => {
+    if (show) startAnimation()
+    else endAnimation()
+    setShowAnimatedGif(show)
+  }
+
   return (
     <View style={styles.container}>
       {!loading && players.length !== 0 &&
         <>
           <View style={styles.description}>
-            <Text style={styles.h5}>{positions[activeIndex - 1]}</Text>
+            <Text style={styles.h5}>{positions[activeIndex]}</Text>
             <Text style={styles.h1} numberOfLines={1}>
               {activeIndex === 0
                 ? `${players[activeIndex].name}-${players[activeIndex].surname}`
@@ -75,9 +99,22 @@ const Home = () => {
               <Text style={styles.value}>{calculatePointsPerGame(players[activeIndex].stats.totalpoints, players[activeIndex].stats.gamesplayed)}</Text>
             </View>
           </View>
-          <Image
+
+          <ImageBackground
             style={styles.imageBackground}
             source={backgroundImage}
+          >
+            <TouchableOpacity
+              onPress={() => handleGif(!showAnimatedGif)}
+              style={{
+                height: 300,
+                width: 300
+              }}
+            />
+          </ImageBackground>
+          <Animated.Image
+            source={require('../../../assets/gifs/orangutan-animated.gif')}
+            style={{ transform: [{ scale: showAnimatedGif ? 1 : 0 }], height: 550, width: 550, left: gifPosition, position: 'absolute', top: '10%', zIndex: 10 }}
           />
           <View style={styles.cards}>
             <CarouselContainer

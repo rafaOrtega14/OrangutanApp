@@ -9,6 +9,7 @@ export default (players, games) => {
     name: 'Orangutan',
     surname: 'Clan',
     position: 'Equipo',
+    nickname: 'Haters',
     dorsal: ' ',
     stats: {
       gamesplayed: totalGames?.length,

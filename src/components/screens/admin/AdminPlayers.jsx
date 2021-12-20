@@ -64,7 +64,7 @@ const AdminPlayers = () => {
       threes: parseInt(input.threes)
     }
 
-    if (!body.totalpoints || !body.gamesplayed || !body.threes) {
+    if (input.totalpoints === '' || input.gamesplayed === '' || input.threes === '') {
       return setError(true)
     }
 

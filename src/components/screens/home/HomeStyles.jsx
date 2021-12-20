@@ -15,10 +15,10 @@ export default StyleSheet.create({
     height: 300,
     width: 300,
     position: 'absolute',
-    top: '10%',
+    top: '12%',
     left: '60%',
     borderColor: '#000',
-    borderWidth: 10,
+    borderWidth: 0,
     borderRadius: 1000
   },
   description: {
