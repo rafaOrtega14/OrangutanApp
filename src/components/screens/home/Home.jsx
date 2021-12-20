@@ -40,10 +40,14 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
-    const res = sortPlayers(team, sortBy)
-    const overall = calcGlobalStats(res, games)
-    setPlayers([overall, ...res])
-    setActiveIndex(0)
+    const update = async () => {
+      const gameList = await getCalendar()
+      const res = sortPlayers(team, sortBy)
+      const overall = calcGlobalStats(res, gameList.games)
+      setPlayers([overall, ...res])
+      setActiveIndex(0)
+    }
+    update()
   }, [sortBy, games])
 
   const startAnimation = () => {

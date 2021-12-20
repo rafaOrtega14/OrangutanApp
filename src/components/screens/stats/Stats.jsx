@@ -9,18 +9,20 @@ import Loader from '../../loader/Loader'
 import EmptyData from '../../empty-data/EmptyData'
 import colors from '../../../constants/colors'
 import calculatePointsPerGame from '../../../utils/calculatePointsPerGame'
+import getCalendar from '../../../services/getCalendar'
 
 const Stats = () => {
-  const { state: { roster: { players: team, sortBy }, calendar: { games } } } = useStateContext()
+  const { state: { roster: { players: team, sortBy } } } = useStateContext()
   const [players, setPlayers] = useState([])
   const [table, setTable] = useState()
   const [loading, setLoading] = useState(true)
   const [selectedRow, setSelectedRow] = useState(0)
   const [selectedRow2, setSelectedRow2] = useState(null)
 
-  const fillTable = () => {
+  const fillTable = async () => {
+    const gameList = await getCalendar()
     const res = sortPlayers(team, sortBy)
-    const overall = calcGlobalStats(res, games)
+    const overall = calcGlobalStats(res, gameList.games)
     const sortedPlayers = [overall, ...res]
     setPlayers(sortedPlayers)
     setTable({
