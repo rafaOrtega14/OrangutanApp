@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { BASE_URL } from '../constants/settings'
 
 export default async () => {
-  const { data } = await axios.get('https://orangutanclan.herokuapp.com/players')
+  const { data } = await axios.get(`${BASE_URL}/players`)
   return data
 }

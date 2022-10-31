@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { BASE_URL } from '../constants/settings'
 
 export default async (id, body) => {
   const headers = {
@@ -6,6 +7,6 @@ export default async (id, body) => {
       'Content-Type': 'application/json'
     }
   }
-  const { data } = await axios.put(`https://orangutanclan.herokuapp.com/calendar/${id}`, body, headers)
+  const { data } = await axios.put(`${BASE_URL}/calendar/${id}`, body, headers)
   return data
 }
