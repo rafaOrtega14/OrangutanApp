@@ -117,7 +117,7 @@ const Home = () => {
             />
           </ImageBackground>
           <Animated.Image
-            source={require('../../../assets/gifs/orangutan-animated.gif')}
+            source={require('../../../assets/images/lin.png')}
             style={{ transform: [{ scale: showAnimatedGif ? 1 : 0 }], height: 550, width: 550, left: gifPosition, position: 'absolute', top: '10%', zIndex: 10 }}
           />
           <View style={styles.cards}>
