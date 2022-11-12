@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://orangutanapi.onrender.com'
+export const BASE_URL = 'https://zany-ruby-piranha-hose.cyclic.app'
